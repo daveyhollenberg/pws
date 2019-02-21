@@ -34,15 +34,16 @@ void primitive(Node* node){
         exit(0);
         return;
       }
-      insertNode(node,"/",node,new Node("+",new Node(node->right->value),new Node("1")));
+      Node* rc = NULL;
+      copyTree(node->right,rc);
+      insertNode(node,"/",node,new Node("+",rc,new Node("1")));
       Node* nn = NULL;
       copyTree(node->left,nn);
       insertNode(node,"*",node,nn);
       derivative(nn);
-      Node* nl = new Node(node->right->value);
+      Node* nl = NULL;//N
+      copyTree(node->right,nl);//new Node(node->right->value);
       Node* nr = new Node("1");
-      //nl->calculated = true;
-      //nr->calculated = true;
       node->right->left = nl;
       node->right->right = nr;
       node->right->value = "+";
@@ -70,7 +71,13 @@ void primitive(Node* node){
     return;
   } if(node->value == "/"){
     if(!containsX(node->left)){
-      primitive(node->right);
+      if(node->right->value == "x"){
+        insertNode(node,"abs",node,NULL);
+        insertNode(getParent(root,node),"ln",getParent(root,node),NULL);
+      }else{
+        std::cout << "error##Kan formule niet Primitiveren" << std::endl;
+        exit(0);
+      }
     }else if(!containsX(node->right)){
       primitive(node->left);
     }else{
@@ -128,12 +135,12 @@ void primitive(Node* node){
 std::string primitive(std::string formula){
   root = new Node("");
   constructTree(split(prepare(formula)),*root);
-  //print("", root, false);
+  print("", root, false);
   primitive(root);
   insertNode(root,"+",root,new Node("c"));
-//  print("", root, false);
+  print("", root, false);
   simplify(root);
-//  print("", root, false);
+  print("", root, false);
 
   return toLatex(root);
 }

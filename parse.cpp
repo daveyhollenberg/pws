@@ -35,6 +35,7 @@ std::string functions[] = {"log","ln","sqrt","abs","cos","sin","tan"};
 std::string constants[] = {"e","pi","$1","$2","$3","$4"};
 
 bool isNumber(std::string token){
+  if(token[0] == '-' && token.length() > 1){return token.substr(1,token.length()-1).find_first_not_of("0123456789.") == std::string::npos;}
   return token.find_first_not_of("0123456789.") == std::string::npos;
 }
 bool isOperand(std::string token){
@@ -166,7 +167,7 @@ std::string prepare(std::string formula){
             }
             p++;
           }
-          formula = formula.substr(0,ptr) + "(0" + formula.substr(ptr,p) + ")" + formula.substr(p,formula.length()-p);
+          formula = formula.substr(0,ptr) + "(0" + formula.substr(ptr,p) + ")" + formula.substr(p+1,formula.length()-p-1);
           continue;
         }
     }

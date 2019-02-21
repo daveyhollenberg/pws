@@ -122,9 +122,15 @@ void getLatex(Node* node, std::string& res){
     res += "\\right |";
   }else if(isFunction(node->value)){
     res += node->value;
-    res += "\\left (";
+    bool p = false;
+    if(node->value == "abs" && isFunction(getParent(root,node)->value)){p = true;}
+    if(p){
+      res += "\\left (";
+    }
     getLatex(node->left,res);
-    res += "\\right )";
+    if(p){
+      res += "\\right )";
+    }
   }else{
     if(par){res += "\\left (";}
     getLatex(node->left,res);

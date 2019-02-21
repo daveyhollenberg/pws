@@ -43,6 +43,7 @@ int main(int argc,char** argv){
     }
   }
 
+
 //3*x^2-5*x+8+4^(3x)   (4x)^(2x)
   //5x^2-6x p
   //-1*XX -> -XX
