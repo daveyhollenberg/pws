@@ -337,7 +337,7 @@ void simplify1(Node* node){
     if(node->value == "+" || node->value == "-"){
       if(getXValue(node->left) == getXValue(node->right)){
         int xv = getXValue(node->left);
-        print("",root,false);
+        //print("",root,false);
         std::vector<Node*> list;
         collectNodesWithOperator(node->left,"*",&list);
         collectNodesWithOperator(node->right,"*",&list);
